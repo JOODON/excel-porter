@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>ExcelPorter Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        #copy-btn {
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #copy-btn:hover {
+            background-color: #45a049;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+<h2>Excel Preview</h2>
+<button id="copy-btn">Copy to Excel</button>
+<div id="excel-preview"></div>
+
+<script>
+    const dataList = [
+        {
+            name: '홍길동', age: 30, job: '개발자',
+            email: 'hong@excelporter.com', department: '개발팀',
+            joinedDate: '2021-03-15', location: '서울', isActive: true
+        },
+        {
+            name: '김영희', age: 27, job: '디자이너',
+            email: 'kim@excelporter.com', department: '디자인팀',
+            joinedDate: '2022-07-01', location: '부산', isActive: true
+        },
+        {
+            name: '박철수', age: 35, job: '기획자',
+            email: 'park@excelporter.com', department: '기획팀',
+            joinedDate: '2019-11-20', location: '대구', isActive: false
+        },
+        {
+            name: '이민호', age: 29, job: '데이터 분석가',
+            email: 'lee@excelporter.com', department: '데이터팀',
+            joinedDate: '2020-01-10', location: '서울', isActive: true
+        },
+        {
+            name: '최지우', age: 32, job: '프론트엔드 개발자',
+            email: 'choi@excelporter.com', department: '개발팀',
+            joinedDate: '2018-05-08', location: '인천', isActive: true
+        },
+        {
+            name: '정우성', age: 38, job: '백엔드 개발자',
+            email: 'jung@excelporter.com', department: '개발팀',
+            joinedDate: '2017-08-21', location: '서울', isActive: false
+        },
+        {
+            name: '한지민', age: 26, job: 'UX 디자이너',
+            email: 'han@excelporter.com', department: '디자인팀',
+            joinedDate: '2023-02-14', location: '광주', isActive: true
+        },
+        {
+            name: '강동원', age: 34, job: '데브옵스 엔지니어',
+            email: 'kang@excelporter.com', department: '인프라팀',
+            joinedDate: '2021-06-17', location: '서울', isActive: true
+        },
+        {
+            name: '김수현', age: 28, job: 'AI 엔지니어',
+            email: 'kimsh@excelporter.com', department: 'AI팀',
+            joinedDate: '2022-01-01', location: '대전', isActive: true
+        },
+        {
+            name: '이영애', age: 31, job: '시스템 관리자',
+            email: 'lee@excelporter.com', department: '인프라팀',
+            joinedDate: '2020-09-30', location: '울산', isActive: false
+        },
+        {
+            name: '박보검', age: 33, job: '풀스택 개발자',
+            email: 'parkbg@excelporter.com', department: '개발팀',
+            joinedDate: '2016-04-11', location: '서울', isActive: true
+        },
+        {
+            name: '송혜교', age: 30, job: '데이터 사이언티스트',
+            email: 'song@excelporter.com', department: '데이터팀',
+            joinedDate: '2022-10-05', location: '부산', isActive: true
+        },
+        {
+            name: '이준기', age: 36, job: '보안 전문가',
+            email: 'leejg@excelporter.com', department: '보안팀',
+            joinedDate: '2015-03-22', location: '서울', isActive: false
+        },
+        {
+            name: '문채원', age: 27, job: '모바일 앱 개발자',
+            email: 'moon@excelporter.com', department: '모바일팀',
+            joinedDate: '2020-07-13', location: '경기', isActive: true
+        },
+        {
+            name: '서강준', age: 29, job: '프론트엔드 개발자',
+            email: 'seo@excelporter.com', department: '개발팀',
+            joinedDate: '2021-12-01', location: '서울', isActive: true
+        },
+        {
+            name: '김고은', age: 30, job: '기획자',
+            email: 'kimg@excelporter.com', department: '기획팀',
+            joinedDate: '2019-02-08', location: '대전', isActive: false
+        },
+        {
+            name: '이성경', age: 25, job: '마케팅 매니저',
+            email: 'lee@excelporter.com', department: '마케팅팀',
+            joinedDate: '2023-01-25', location: '부산', isActive: true
+        },
+        {
+            name: '남주혁', age: 33, job: '테크 리더',
+            email: 'nam@excelporter.com', department: '기술전략팀',
+            joinedDate: '2018-11-10', location: '서울', isActive: true
+        },
+        {
+            name: '수지', age: 28, job: '브랜드 디자이너',
+            email: 'suzy@excelporter.com', department: '브랜드팀',
+            joinedDate: '2020-06-19', location: '경기', isActive: true
+        },
+        {
+            name: '강하늘', age: 31, job: '제품 관리자',
+            email: 'kanghn@excelporter.com', department: '제품팀',
+            joinedDate: '2019-08-03', location: '서울', isActive: false
+        }
+    ];
+
+
+    function renderExcelPreview(data) {
+        const preview = document.getElementById('excel-preview');
+        preview.innerHTML = ''; // clear previous
+
+        const table = document.createElement('table');
+
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        Object.keys(data[0]).forEach(key => {
+            const th = document.createElement('th');
+            th.textContent = key;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            Object.values(row).forEach(value => {
+                const td = document.createElement('td');
+                td.textContent = value;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        preview.appendChild(table);
+    }
+
+    function copyTableToClipboard(data) {
+        let tsv = '';
+
+        // 헤더
+        tsv += Object.keys(data[0]).join('\t') + '\n';
+
+        // 데이터 행
+        data.forEach(row => {
+            tsv += Object.values(row).join('\t') + '\n';
+        });
+
+        // 클립보드에 복사
+        navigator.clipboard.writeText(tsv).then(() => {
+            alert('복사 완료! Excel에 붙여넣기(Ctrl+V) 하세요.');
+        }).catch(err => {
+            console.error('복사 실패:', err);
+            alert('복사 실패. 브라우저 권한을 확인하세요.');
+        });
+    }
+
+    document.getElementById('copy-btn').addEventListener('click', () => {
+        copyTableToClipboard(dataList);
+    });
+
+    renderExcelPreview(dataList);
+</script>
+</body>
+</html>
